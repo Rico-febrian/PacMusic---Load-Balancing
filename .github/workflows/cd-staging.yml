@@ -43,7 +43,7 @@ jobs:
               echo "MINIO_STG_ACCESS_KEY=$MINIO_STG_ACCESS_KEY" >> .env
               echo "MINIO_STG_SECRET_KEY=$MINIO_STG_SECRET_KEY" >> .env
               echo "APP_STG_PORT_1=$APP_STG_PORT_1" >> .env
-              ech0 "APP_STG_PORT_2=$APP_STG_PORT_2" >> .env
+              echo "APP_STG_PORT_2=$APP_STG_PORT_2" >> .env
           
               # Run app
               sudo docker compose up pacmusic-stg-1 pacmusic-stg-2 --build --detach
