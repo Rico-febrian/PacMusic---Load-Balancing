@@ -48,9 +48,8 @@ jobs:
               echo "STG_DOMAIN=$STG_DOMAIN" >> .env
           
 
-              # Generate SSL certificates if not already present
-              if [ ! -d "/etc/letsencrypt/live/stg.${STG_DOMAIN}" ]; then
-                sudo docker run --rm -v /etc/letsencrypt:/etc/letsencrypt -v /var/lib/letsencrypt:/var/lib/letsencrypt -v /data/letsencrypt:/data/letsencrypt certbot/certbot certonly --webroot --webroot-path=/data/letsencrypt -d ${STG_DOMAIN} --email ricofebrian731@gmail.com --agree-tos --no-eff-email
+              if [[ ! -f "/etc/letsencrypt/live/${STG_DOMAIN}/fullchain.pem" ]]; then
+                sudo docker compose -f docker-compose.staging.yml run --rm certbot certonly --webroot --webroot-path=/data/letsencrypt -d ${STG_DOMAIN} --email ricofebrian731@gmail.com --agree-tos --non-interactive
               fi
               
               # Run app
@@ -60,4 +59,3 @@ jobs:
           run: |
             sleep 20
             curl ${{ secrets.STG_URL }}
-            curl ${{ secrets.DOMAIN }}
