@@ -71,26 +71,6 @@ services:
     networks:
       - pacmusic-network
 
-  nginx:
-    image: nginx:latest
-    ports:
-      - 80:80
-      - 443:443
-    restart: always
-    volumes:
-      - ./nginx/conf/:/etc/nginx/conf.d/:ro
-      - ./certbot/www/:/var/www/certbot/:ro
-    networks:
-      - pacmusic-network
-
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
-    networks:
-      - pacmusic-network
-
 networks:
   pacmusic-network:
     driver: bridge
