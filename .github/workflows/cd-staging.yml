@@ -46,7 +46,7 @@ jobs:
               echo "APP_STG_PORT_2=$APP_STG_PORT_2" >> .env
           
               # Run app
-              sudo docker compose up pacmusic-stg-1 pacmusic-stg-2 nginx certbot --build --detach
+              sudo docker compose up pacmusic-stg-1 pacmusic-stg-2 --build --detach
                 
         - name: Hit Endpoint
           run: |
