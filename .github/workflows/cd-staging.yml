@@ -49,7 +49,7 @@ jobs:
           
 
               if [[ ! -f "/etc/letsencrypt/live/${STG_DOMAIN}/fullchain.pem" ]]; then
-                sudo docker compose -f docker-compose.staging.yml run --rm certbot certonly --webroot --webroot-path=/data/letsencrypt -d ${STG_DOMAIN} --email ricofebrian731@gmail.com --agree-tos --non-interactive
+                docker-compose run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ --dry-run -d ${STG_DOMAIN}
               fi
               
               # Run app
