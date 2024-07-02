@@ -49,7 +49,7 @@ jobs:
           
 
               # Generate SSL certificates if not already present
-              if [ ! -d "/etc/letsencrypt/live/stg.${DOMAIN}" ]; then
+              if [ ! -d "/etc/letsencrypt/live/stg.${STG_DOMAIN}" ]; then
                 sudo docker run --rm -v /etc/letsencrypt:/etc/letsencrypt -v /var/lib/letsencrypt:/var/lib/letsencrypt -v /data/letsencrypt:/data/letsencrypt certbot/certbot certonly --webroot --webroot-path=/data/letsencrypt -d ${STG_DOMAIN} --email ricofebrian731@gmail.com --agree-tos --no-eff-email
               fi
               
