@@ -20,12 +20,13 @@ jobs:
             MINIO_STG_SECRET_KEY: ${{ secrets.MINIO_STG_SECRET_KEY }}
             APP_STG_PORT_1: ${{ secrets.APP_STG_PORT_1 }}
             APP_STG_PORT_2: ${{ secrets.APP_STG_PORT_2 }}
+            STG_DOMAIN: ${{ secrets.STG_DOMAIN}}
             
           with:
             host: ${{ secrets.SSH_HOST_STAGING }}
             username: ${{ secrets.SSH_USER_NAME_STAGING }}
             key: ${{ secrets.SSH_PRIVATE_KEY_STAGING }}
-            envs: APP_STG_PATH, GIT_URL, MINIO_STG_ENDPOINT, MINIO_STG_ACCESS_KEY, MINIO_STG_SECRET_KEY, APP_STG_PORT_1, APP_STG_PORT_2
+            envs: APP_STG_PATH, GIT_URL, MINIO_STG_ENDPOINT, MINIO_STG_ACCESS_KEY, MINIO_STG_SECRET_KEY, APP_STG_PORT_1, APP_STG_PORT_2, STG_DOMAIN
             script: |
               
               if [[ -d "${APP_STG_PATH}" ]]; then 
@@ -44,11 +45,19 @@ jobs:
               echo "MINIO_STG_SECRET_KEY=$MINIO_STG_SECRET_KEY" >> .env
               echo "APP_STG_PORT_1=$APP_STG_PORT_1" >> .env
               echo "APP_STG_PORT_2=$APP_STG_PORT_2" >> .env
+              echo "STG_DOMAIN=$STG_DOMAIN" >> .env
           
+
+              # Generate SSL certificates if not already present
+              if [ ! -d "/etc/letsencrypt/live/stg.${DOMAIN}" ]; then
+                sudo docker run --rm -v /etc/letsencrypt:/etc/letsencrypt -v /var/lib/letsencrypt:/var/lib/letsencrypt -v /data/letsencrypt:/data/letsencrypt certbot/certbot certonly --webroot --webroot-path=/data/letsencrypt -d stg.${DOMAIN} --email your-email@example.com --agree-tos --no-eff-email
+              fi
+              
               # Run app
-              sudo docker compose up pacmusic-stg-1 pacmusic-stg-2 --build --detach
+              sudo docker compose up pacmusic-stg-1 pacmusic-stg-2 nginx --build --detach
                 
         - name: Hit Endpoint
           run: |
             sleep 20
             curl ${{ secrets.STG_URL }}
+            curl ${{ secrets.DOMAIN }}
