@@ -48,8 +48,8 @@ jobs:
               echo "STG_DOMAIN=$STG_DOMAIN" >> .env
           
               # Run app
-              sudo docker compose up pacmusic-stg-1 pacmusic-stg-2 nginx-staging --build --detach
-                
+              sudo docker compose up nginx-staging certbot-staging pacmusic-stg-1 pacmusic-stg-2 --build -d
+            
         - name: Hit Endpoint
           run: |
             sleep 20
