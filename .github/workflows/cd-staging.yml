@@ -10,6 +10,9 @@ jobs:
     environment: staging
     runs-on: ubuntu-latest
     steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+        
         - name: Execute deployment command
           uses: appleboy/ssh-action@v1.0.3
           env:
