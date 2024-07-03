@@ -46,14 +46,9 @@ jobs:
               echo "APP_STG_PORT_1=$APP_STG_PORT_1" >> .env
               echo "APP_STG_PORT_2=$APP_STG_PORT_2" >> .env
               echo "STG_DOMAIN=$STG_DOMAIN" >> .env
-          
-
-              if [[ ! -f "/etc/letsencrypt/live/${STG_DOMAIN}/fullchain.pem" ]]; then
-                docker-compose run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ --dry-run -d ${STG_DOMAIN}
-              fi
               
               # Run app
-              sudo docker compose up pacmusic-stg-1 pacmusic-stg-2 nginx --build --detach
+              sudo docker compose up pacmusic-stg-1 pacmusic-stg-2 nginx-staging certbot --build --detach
                 
         - name: Hit Endpoint
           run: |

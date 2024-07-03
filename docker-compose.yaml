@@ -71,7 +71,7 @@ services:
     networks:
       - pacmusic-network
  
-  nginx:
+  nginx-staging:
     image: nginx:latest
     ports:
       - 80:80
@@ -79,15 +79,19 @@ services:
     restart: always
     volumes:
       - ./nginx/conf/:/etc/nginx/conf.d/:ro
-      - ./certbot/www/:/var/www/certbot/:ro
+      - ./certbot/www/staging:/var/www/certbot/:ro
+    depends_on:
+      - pacmusic-stg-1
+      - pacmusic-stg-2
     networks:
       - pacmusic-network
 
   certbot:
     image: certbot/certbot:latest
+    command: certonly --webroot --webroot-path=/var/www/certbot --email ricofebrian731@gmail.com --agree-tos --no-eff-email --force-renewal -d stg.pacmusic.duckdns.org
     volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
+      - ./certbot/www/staging:/var/www/certbot/:rw
+      - ./certbot/conf/staging:/etc/letsencrypt/:rw
     networks:
       - pacmusic-network
 
