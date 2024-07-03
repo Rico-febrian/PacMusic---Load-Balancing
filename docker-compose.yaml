@@ -73,8 +73,7 @@ services:
 
 # NGINX STAGING
   nginx-staging:
-    image: NGINX:latest
-    container_name: nginx-staging
+    image: nginx:latest
     ports:
       - 80:80
       - 443:443
@@ -91,7 +90,6 @@ services:
 # CERTBOT STAGING
   certbot-staging:
     image: certbot/certbot:latest
-    container_name: certbot-staging
     command: certonly --webroot --webroot-path=/var/www/certbot --email ricofebrian731@gmail.com --agree-tos --no-eff-email --force-renewal -d stg.pacmusic.duckdns.org
     volumes:
       - ./certbot/www/staging:/var/www/certbot/:rw
