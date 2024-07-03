@@ -81,8 +81,7 @@ services:
     volumes:
       - ./nginx/conf/:/etc/nginx/conf.d/:ro
       - ./certbot/www/staging:/var/www/certbot/:ro
-    networks:
-      - pacmusic-network
+    network_mode: host
 
 # CERTBOT
   certbot:
