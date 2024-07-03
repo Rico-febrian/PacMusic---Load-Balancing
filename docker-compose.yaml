@@ -73,7 +73,7 @@ services:
 
 # NGINX STAGING
   nginx-staging:
-    image: nginx:latest
+    image: nginx
     ports:
       - 80:80
       - 443:443
@@ -81,9 +81,6 @@ services:
     volumes:
       - ./nginx/conf/:/etc/nginx/conf.d/:ro
       - ./certbot/www/staging:/var/www/certbot/:ro
-    depends_on:
-      - pacmusic-stg-1
-      - pacmusic-stg-2
     networks:
       - pacmusic-network
 
