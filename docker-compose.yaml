@@ -70,7 +70,8 @@ services:
       - ${APP_PROD_PORT_2}:5000
     networks:
       - pacmusic-network
- 
+
+# NGINX STAGING
   nginx-staging:
     image: nginx:latest
     ports:
@@ -86,7 +87,8 @@ services:
     networks:
       - pacmusic-network
 
-  certbot:
+# CERTBOT STAGING
+  certbot-staging:
     image: certbot/certbot:latest
     command: certonly --webroot --webroot-path=/var/www/certbot --email ricofebrian731@gmail.com --agree-tos --no-eff-email --force-renewal -d stg.pacmusic.duckdns.org
     volumes:
