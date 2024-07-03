@@ -52,7 +52,9 @@ jobs:
               
               # Run app
               sudo docker compose up pacmusic-stg-1 pacmusic-stg-2 nginx-staging certbot-staging --build
-                
+              
+              cat compose_logs.txt
+              
         - name: Hit Endpoint
           run: |
             sleep 20
